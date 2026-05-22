@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skylark Forma Grand Prix — Bitcoin Pizza Day</title>
+<link href="https://fonts.googleapis.com/css2?family=Racing+Sans+One&family=Bangers:wght@400&family=Boogaloo&family=Permanent+Marker&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #e8162e;
+    --yellow: #f5c800;
+    --orange: #ff6a00;
+    --purple: #5b21f5;
+    --white: #f5f0e8;
+    --off-white: #ede8dc;
+    --dark: #1a1008;
+    --gold: #b8952a;
+    --grid-blue: #7ba7d4;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    background: var(--off-white);
+    font-family: 'Boogaloo', cursive;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* grain */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 200; opacity: 0.35;
+  }
+
+  .bg-layer {
+    position: fixed; inset: 0;
+    background:
+      repeating-linear-gradient(-12deg, transparent, transparent 55px,
+        rgba(232,22,46,0.035) 55px, rgba(232,22,46,0.035) 57px),
+      repeating-linear-gradient(78deg, transparent, transparent 70px,
+        rgba(91,33,245,0.025) 70px, rgba(91,33,245,0.025) 72px);
+    background-color: var(--off-white);
+    z-index: 0;
+  }
+
+  .pep-bg { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+  .pep {
+    position: absolute; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #c94020, #7a2010);
+    opacity: 0.10;
+    box-shadow: inset -4px -4px 8px rgba(0,0,0,0.3);
+  }
+
+  .bg-hw {
+    position: fixed;
+    font-family: 'Share Tech Mono', monospace; font-weight: bold;
+    color: rgba(100,100,180,0.09);
+    pointer-events: none; user-select: none; z-index: 1;
+  }
+
+  /* ── HERO: full viewport, two columns ── */
+  .hero {
+    position: relative; z-index: 5;
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 0;
+    padding: 0 52px;
+    min-height: 0;
+  }
+
+  /* ── LEFT ── */
+  .left-col {
+    display: flex; flex-direction: column;
+    justify-content: center;
+    padding-right: 32px;
+    gap: 8px;
+  }
+
+  .title-forma {
+    font-family: 'Permanent Marker', cursive;
+    font-size: clamp(2.6rem, 5.8vw, 5.2rem);
+    color: var(--yellow);
+    -webkit-text-stroke: 1.5px #c89800;
+    text-shadow: 3px 3px 0 #a07000, 6px 6px 0 rgba(160,112,0,0.25);
+    display: inline-block;
+    transform: rotate(-3deg) translateX(14px);
+    line-height: 1;
+    animation: slideUp 0.6s cubic-bezier(.22,1,.36,1) both; animation-delay: 0.1s;
+  }
+
+  .title-grand-prix {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(4rem, 9vw, 8rem);
+    letter-spacing: 3px; line-height: 0.88;
+    color: var(--white);
+    -webkit-text-stroke: 2.5px var(--red);
+    text-shadow: 5px 5px 0 var(--red), 10px 10px 0 rgba(232,22,46,0.2), -1px -1px 0 var(--dark);
+    display: block;
+    animation: slideUp 0.6s cubic-bezier(.22,1,.36,1) both; animation-delay: 0.2s;
+  }
+
+  .divider {
+    width: 64px; height: 4px;
+    background: var(--dark);
+    margin: 4px 0;
+    position: relative;
+    animation: fadeIn 0.5s both; animation-delay: 0.28s;
+  }
+  .divider::after {
+    content: '';
+    position: absolute; left: 72px; top: 0;
+    width: 16px; height: 4px; background: var(--red);
+  }
+
+  .title-bitcoin-pizza {
+    display: flex; align-items: baseline; gap: 14px;
+    animation: slideUp 0.6s cubic-bezier(.22,1,.36,1) both; animation-delay: 0.32s;
+  }
+  .bp-word {
+    font-family: 'Racing Sans One', cursive;
+    font-size: clamp(2.2rem, 4.8vw, 4.2rem);
+    color: var(--gold);
+    -webkit-text-stroke: 1px #7a5800;
+    text-shadow: 2px 2px 0 #5a3800;
+    letter-spacing: 1px;
+  }
+
+  .title-day {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(3rem, 6.8vw, 6rem);
+    color: var(--orange);
+    -webkit-text-stroke: 1.5px #8b3000;
+    text-shadow: 3px 3px 0 #8b3000, 6px 6px 0 rgba(139,48,0,0.25);
+    letter-spacing: 8px; line-height: 1;
+    animation: slideUp 0.6s cubic-bezier(.22,1,.36,1) both; animation-delay: 0.4s;
+  }
+
+  .cta-block {
+    margin-top: 10px;
+    display: flex; flex-direction: column; gap: 10px;
+    animation: slideUp 0.6s cubic-bezier(.22,1,.36,1) both; animation-delay: 0.5s;
+  }
+  .cta-tagline {
+    font-family: 'Boogaloo', cursive;
+    font-size: clamp(0.9rem, 1.7vw, 1.2rem);
+    color: var(--dark); opacity: 0.7; letter-spacing: 0.4px;
+    line-height: 1.5; max-width: 420px;
+  }
+  .cta-tagline .accent { color: var(--red); opacity: 1; font-weight: 700; }
+
+  .flags-inline {
+    display: flex; align-items: center; gap: 8px; margin-top: 2px;
+  }
+  .flag-emoji { font-size: 1.5rem; display: inline-block; }
+  .flag-emoji:first-child { animation: fw1 1.4s ease-in-out infinite alternate; }
+  .flag-emoji:last-child  { animation: fw2 1.4s ease-in-out infinite alternate; animation-delay:0.3s; }
+  @keyframes fw1 { from{transform:rotate(-18deg)} to{transform:rotate(-8deg) scale(1.1)} }
+  @keyframes fw2 { from{transform:rotate(18deg)}  to{transform:rotate(8deg) scale(1.1)} }
+  .flags-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 2px; opacity: 0.38; text-transform: uppercase;
+  }
+
+  /* ── RIGHT ── */
+  .right-col {
+    display: flex; align-items: center; justify-content: center;
+    padding-left: 16px;
+    animation: fadeUp 0.9s cubic-bezier(.22,1,.36,1) both; animation-delay: 0.5s;
+  }
+
+  .circuit-wrap {
+    position: relative;
+    width: min(440px, 46vw);
+  }
+  .circuit-wrap::before {
+    content: '';
+    position: absolute; inset: -14px; border-radius: 50%;
+    border: 3px dashed rgba(232,22,46,0.22);
+    animation: ringRotate 18s linear infinite;
+  }
+  .circuit-wrap::after {
+    content: '';
+    position: absolute; inset: -28px; border-radius: 50%;
+    border: 2px dashed rgba(91,33,245,0.13);
+    animation: ringRotate 30s linear infinite reverse;
+  }
+  @keyframes ringRotate { to { transform: rotate(360deg); } }
+
+  .pizza-base {
+    width: 100%; aspect-ratio: 1;
+    border-radius: 50%;
+    border: 4px solid var(--red);
+    box-shadow:
+      0 0 0 7px rgba(232,22,46,0.12),
+      0 24px 70px rgba(0,0,0,0.28);
+    position: relative; overflow: hidden;
+  }
+  .pizza-img {
+    width: 100%; height: 100%;
+    object-fit: cover; border-radius: 50%;
+    display: block;
+  }
+
+  /* ── CORNER BRANDING ── */
+  .corner-logo {
+    position: fixed; top: 28px; left: 32px;
+    width: clamp(90px, 11vw, 150px); height: auto;
+    z-index: 100;
+    animation: fadeIn 0.6s both; animation-delay: 0.3s;
+  }
+  .corner-qr {
+    position: fixed; bottom: 28px; right: 32px;
+    width: clamp(96px, 11vw, 140px); height: auto;
+    border-radius: 8px;
+    z-index: 100;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    animation: fadeIn 0.6s both; animation-delay: 0.5s;
+  }
+
+  @keyframes slideUp  { from{opacity:0;transform:translateY(30px) skewX(-4deg)} to{opacity:1;transform:none} }
+  @keyframes fadeIn   { from{opacity:0} to{opacity:1} }
+  @keyframes fadeUp   { from{opacity:0;transform:translateY(50px)} to{opacity:1;transform:none} }
+</style>
+</head>
+<body>
+
+<div class="bg-layer"></div>
+<div class="pep-bg" id="pepBg"></div>
+
+<img class="corner-logo" src="logo.png" alt="Skylark logo">
+<img class="corner-qr" src="QR.png" alt="QR code">
+
+<span class="bg-hw" style="top:6%;left:1%;font-size:5rem">54</span>
+<span class="bg-hw" style="top:10%;right:3%;font-size:4.5rem">85</span>
+<span class="bg-hw" style="bottom:18%;left:4%;font-size:4rem">75</span>
+<span class="bg-hw" style="bottom:20%;right:6%;font-size:4.5rem">20</span>
+<span class="bg-hw" style="bottom:3%;left:48%;transform:translateX(-50%);font-size:3.5rem">75/85</span>
+
+<section class="hero">
+
+  <!-- LEFT -->
+  <div class="left-col">
+    <div>
+      <span class="title-forma">Forma</span>
+      <span class="title-grand-prix">Grand Prix</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="title-bitcoin-pizza">
+      <span class="bp-word">Bitcoin</span>
+      <span class="bp-word">Pizza</span>
+    </div>
+
+    <span class="title-day">Day</span>
+
+    <div class="cta-block">
+      <p class="cta-tagline">
+        Race through the <span class="accent">RICE CENTER SCAVENGER HUNT</span> and fold
+        the fastest pizza box.
+      </p>
+      <div class="flags-inline">
+        <span class="flag-emoji">🏁</span>
+        <span class="flags-label">Atlanta, GA</span>
+        <span class="flag-emoji">🏁</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right-col">
+    <div class="circuit-wrap">
+      <div class="pizza-base">
+        <img class="pizza-img" src="pizza.png" alt="Pizza">
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<script>
+  const pepBg = document.getElementById('pepBg');
+  [
+    {top:'4%',left:'6%',size:85},{top:'8%',left:'38%',size:55},
+    {top:'2%',left:'68%',size:72},{top:'18%',left:'90%',size:80},
+    {top:'38%',left:'2%',size:60},{top:'52%',left:'94%',size:70},
+    {top:'65%',left:'80%',size:85},{top:'75%',left:'3%',size:65},
+    {top:'82%',left:'52%',size:90},{top:'90%',left:'20%',size:68},
+    {top:'88%',left:'88%',size:52},{top:'45%',left:'97%',size:62},
+    {top:'14%',left:'24%',size:42},{top:'72%',left:'40%',size:48},
+  ].forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'pep';
+    el.style.cssText = `top:${p.top};left:${p.left};width:${p.size}px;height:${p.size}px`;
+    pepBg.appendChild(el);
+  });
+</script>
+</body>
+</html>
